@@ -8,6 +8,8 @@ from colorama import Style
 # Init methods
 init(autoreset=True)
 
+recieveBytes = 2048
+
 # Logo
 print('██████╗ ███╗   ███╗███████╗███████╗███████╗███████╗███╗   ██╗ ██████╗ ███████╗██████╗')
 print('██╔══██╗████╗ ████║██╔════╝██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝ ██╔════╝██╔══██╗')
@@ -33,7 +35,7 @@ class Server:
 
                     break
                 except:
-                    print("Couldn't bind to that port")
+                    print(Fore.RED + "[Error] Couldn't bind to that port")
 
             self.connections = []
             self.accept_connections()
@@ -41,11 +43,13 @@ class Server:
     def accept_connections(self):
         self.s.listen(100)
 
-        print('Running on IP: '+self.ip)
-        print('Running on port: '+str(self.port))
+        print(Fore.CYAN + '[Info] Running on IP: '+self.ip)
+        print(Fore.CYAN + '[Info] Running on port: '+str(self.port))
         
         while True:
             c, addr = self.s.accept()
+
+            print(Back.GREEN + f'[Voice] Connected: {addr}')
 
             self.connections.append(c)
 
@@ -62,7 +66,7 @@ class Server:
     def handle_client(self,c,addr):
         while 1:
             try:
-                data = c.recv(1024)
+                data = c.recv(recieveBytes)
                 self.broadcast(c, data)
             
             except socket.error:

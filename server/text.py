@@ -67,7 +67,7 @@ class dmsg_database():
 class dmsg_routes():
 	# Errors
 	@webApp.errorhandler(404)
-	def not_found(error):
+	async def not_found(error):
 		return "Route not found"
 
 	# Routes disabled
